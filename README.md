@@ -85,6 +85,12 @@ Martingale is very risky – adjust it based on your own analysis of the times
 when the rate is most volatile – these are the golden hours for profiting! 
 Remember to have sufficient funds in your account corresponding to the martingale levels.
 
+For safety reasons, it's best to disable trading between 8:00 PM and 8:00 AM UTC, 
+as the market is relatively quiet during these hours and the price is too stable. 
+You can use the TradingView script from the repository to visualize trend recurrence. 
+Note: it's based on stock market data, not the data Polymarket uses for price action, 
+so results may vary. However, it will help you understand which days and hours to avoid.
+
 The bot is only used to simulate trades, use it at your own risk!
 
 Here you can see demo instance: http://158.69.209.65:8092/
