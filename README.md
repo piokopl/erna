@@ -86,3 +86,5 @@ when the rate is most volatile – these are the golden hours for profiting!
 Remember to have sufficient funds in your account corresponding to the martingale levels.
 
 The bot is only used to simulate trades, use it at your own risk!
+
+Here you can see demo instance: http://158.69.209.65:8092/
