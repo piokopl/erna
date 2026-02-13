@@ -1,0 +1,29 @@
+//@version=5
+indicator("Polymarket 5m Boxes on 30s (history-safe, limited)", overlay=true, max_boxes_count=5000)
+
+upColor     = input.color(color.new(color.lime, 75), "UP (tło)")
+downColor   = input.color(color.new(color.red, 75), "DOWN (tło)")
+upBorder    = input.color(color.new(color.lime, 0), "UP (obrys)")
+downBorder  = input.color(color.new(color.red, 0), "DOWN (obrys)")
+borderWidth = input.int(1, "Grubość obrysu", minval=0, maxval=5)
+keepBoxes   = input.int(5000, "How many old boxes", minval=100, maxval=5000)
+
+t5 = time("5")
+[o5, h5, l5, c5] = request.security(syminfo.tickerid, "5", [open, high, low, close], barmerge.gaps_off, barmerge.lookahead_off)
+new5 = ta.change(t5) != 0
+
+var boxes = array.new_box()
+
+if new5 and not na(t5[1])
+    leftT = t5[1]
+    rightT = t5
+    prevO = o5[1]
+    prevH = h5[1]
+    prevL = l5[1]
+    prevC = c5[1]
+    isUp = prevC > prevO
+    b = box.new(left=leftT, right=rightT, top=prevH, bottom=prevL, xloc=xloc.bar_time, bgcolor=(isUp ? upColor : downColor), border_color=(isUp ? upBorder : downBorder), border_width=borderWidth)
+    array.push(boxes, b)
+    if array.size(boxes) > keepBoxes
+        old = array.shift(boxes)
+        box.delete(old)
