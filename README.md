@@ -1,4 +1,4 @@
-# PolySniper Straddle v6 (ERNA11)
+# ERNA Polymarket Straddle Bot (ERNA11-5-M-UD)
 
 A multi-asset runner for a **Straddle** strategy on Polymarket:
 - At the start of each 5-minute window the bot buys **YES** and **NO**.
@@ -73,3 +73,16 @@ uvicorn dashboard:app --host 0.0.0.0 --port 8000
 
 - Do **not** commit your `.env` file.
 - Wallet keys and API credentials should only be stored locally and securely.
+
+## Risk
+
+5M is a new market. Beware of martingale – run the bot in demo mode for a few days 
+during the week and on weekends and observe the hours when there is a clear upward 
+and downward trend. Avoid such times; enter such times in the configuration as 
+blacklist hours! 
+
+Martingale is very risky – adjust it based on your own analysis of the times 
+when the rate is most volatile – these are the golden hours for profiting! 
+Remember to have sufficient funds in your account corresponding to the martingale levels.
+
+The bot is only used to simulate trades, use it at your own risk!
