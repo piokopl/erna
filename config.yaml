@@ -1,0 +1,71 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# ERNA-11-5-M-UD - Configuration
+# ═══════════════════════════════════════════════════════════════════════════════
+# Straddle strategy: buy YES and NO simultaneously at the start of each window.
+# Each side has its own config, its own martingale ladder, and its own P&L result.
+#
+# Flow:
+#   1. Wait for the start of the next 5-minute window
+#   2. At the window start: buy YES + buy NO
+#   3. Monitor prices:
+#      - YES bid >= yes.sell_target -> SELL YES (98% of tokens)
+#      - NO  bid >= no.sell_target  -> SELL NO  (98% of tokens)
+#   4. End of window: each side independently records WIN/LOSS -> martingale step
+#   5. Move to the next window
+# ═══════════════════════════════════════════════════════════════════════════════
+mode:
+  demo: true                    # true = simulation | false = LIVE TRADING
+
+dashboard:
+  title: "ERNA-11-5-M-UD"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# STRATEGY — separate settings for YES and NO
+# ─────────────────────────────────────────────────────────────────────────────────
+strategy:
+  sell_fee_buffer: 0.02          # Sell 2% fewer tokens (fee buffer)
+
+  yes:
+    buy_price: 0.58              # Limit BUY dla YES
+    sell_target: 0.99            # YES sell target
+    order_size: 5.0              # Bazowy rozmiar YES (przed martingale)
+
+  no:
+    buy_price: 0.58              # Limit BUY dla NO
+    sell_target: 0.99            # NO sell target
+    order_size: 5.0              # Bazowy rozmiar NO
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# BLACKLIST HOURS (UTC)
+# ─────────────────────────────────────────────────────────────────────────────────
+blacklist_hours: []
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# MARTINGALE — separate state for YES and NO, shared multipliers
+# ─────────────────────────────────────────────────────────────────────────────────
+martingale:
+  multipliers: [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0]
+  target_reduction:
+    second_last: 0.00
+    last: 0.0
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# ASSETS — override order_size per asset per side
+# ─────────────────────────────────────────────────────────────────────────────────
+# Available overrides: yes_order_size, no_order_size
+assets:
+  BTC:
+    enabled: true
+    symbol: "BTC/USDT"
+
+  ETH:
+    enabled: false
+    symbol: "ETH/USDT"
+
+  SOL:
+    enabled: false
+    symbol: "SOL/USDT"
+
+  XRP:
+    enabled: false
+    symbol: "XRP/USDT"

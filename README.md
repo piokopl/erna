@@ -1,2 +1,75 @@
-# erna
-ERNA Polymarket M5 Straddle strategy trading bot
+# PolySniper Straddle v6 (ERNA11)
+
+A multi-asset runner for a **Straddle** strategy on Polymarket:
+- At the start of each 5-minute window the bot buys **YES** and **NO**.
+- Each side has independent configuration and martingale tracking.
+- Positions are monitored and sold once `bid >= sell_target` (per side).
+- Includes a lightweight FastAPI dashboard.
+
+> **Disclaimer:** This repository is provided for educational and research purposes. Trading involves risk. Use at your own discretion.
+
+## Project layout
+
+- `runner.py` — main entrypoint (demo/live)
+- `polymarket_client.py` — Polymarket API + CLOB client wrapper
+- `ws_client.py` — WebSocket price feed client
+- `dashboard.py` — FastAPI dashboard (served from `runner.py`)
+- `config.yaml` — strategy configuration
+- `state/` — runtime state (ignored by git; kept locally)
+- `logs/` — runtime logs (ignored by git; kept locally)
+
+## Setup
+
+### 1) Create a virtual environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+# .venv\Scripts\activate  # Windows PowerShell
+```
+
+### 2) Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3) Configure environment variables
+
+Copy `.env.example` to `.env` and fill in your credentials:
+
+```bash
+cp .env.example .env
+```
+
+### 4) Adjust strategy config
+
+Edit `config.yaml` to match your markets and desired parameters.
+
+## Run
+
+### Demo (paper simulation)
+
+```bash
+python runner.py
+```
+
+### Live trading
+
+```bash
+python runner.py --live
+```
+
+## Dashboard
+
+The runner can start a FastAPI dashboard (see console output for the URL).
+If you prefer to run it standalone, you can use:
+
+```bash
+uvicorn dashboard:app --host 0.0.0.0 --port 8000
+```
+
+## Notes on security
+
+- Do **not** commit your `.env` file.
+- Wallet keys and API credentials should only be stored locally and securely.

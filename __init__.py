@@ -1,0 +1,1 @@
+"""PolySniper Straddle bot package."""
